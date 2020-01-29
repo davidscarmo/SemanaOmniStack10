@@ -1,6 +1,9 @@
 const axios = require('axios'); //adiciona a api axios para a utilização de outras apis  (yarn add axios)
 const Dev = require('../models/Dev'); //importa o model Dev
 const parseStringAsArray = require('../utils/parseStringAsArray'); 
+const {findConnections, sendMessage} = require('../websocket'); 
+
+
 //métodos do controller:  index(lista de inf), show(uma única inf ), store(criar inf), update( alterar inf), destroy(destruir inf)
 module.exports = 
 {
@@ -34,6 +37,16 @@ module.exports =
                 location, 
             }
         );
+
+        //filtrar conexões que estão no máximo 10km de distância 
+        //e que o dev tenha pelo menos uma das tecnologias filtradas
+
+        const sendSocketMessageTo = findConnections(
+            {latitude, longitude}, 
+            techsArray,
+        )
+        
+        sendMessage(sendSocketMessageTo, 'new-dev', dev);
         }
         
         return response.json(dev); 
