@@ -19,7 +19,7 @@ module.exports =
         let dev = await Dev.findOne({github_username});
         if(!dev)
         {
-            const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
+        const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
         const {name = login, avatar_url, bio} = apiResponse.data; // name = login é para caso não exista o name ele pegue o valor de login
         const techsArray = parseStringAsArray(techs); //transforma a string que vem do techs do request.body em um array, map percorre o array criado e utiliza o método trim para retirar os espaços
         
